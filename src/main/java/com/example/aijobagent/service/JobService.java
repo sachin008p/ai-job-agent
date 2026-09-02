@@ -2,9 +2,14 @@ package com.example.aijobagent.service;
 
 import com.example.aijobagent.dto.JobRequest;
 import com.example.aijobagent.dto.JobResponse;
+import com.example.aijobagent.dto.PageResponse;
 import com.example.aijobagent.exception.ResourceNotFoundException;
 import com.example.aijobagent.model.Job;
 import com.example.aijobagent.repository.JobRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +32,38 @@ public class JobService {
     }
 
     @Transactional(readOnly = true)
+    public PageResponse<JobResponse> searchJobs(int page, int size, String title, String location, String skills) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        String safeTitle = title == null ? "" : title.trim();
+        String safeLocation = location == null ? "" : location.trim();
+        String safeSkills = skills == null ? "" : skills.trim();
+
+        Page<Job> jobPage = jobRepository.findByTitleContainingIgnoreCaseAndLocationContainingIgnoreCaseAndTechnologyContainingIgnoreCase(
+                safeTitle, safeLocation, safeSkills, pageable);
+
+        List<JobResponse> content = jobPage.getContent().stream()
+                .map(this::toResponse)
+                .toList();
+
+        return new PageResponse<>(
+                content,
+                jobPage.getNumber(),
+                jobPage.getSize(),
+                jobPage.getTotalElements(),
+                jobPage.getTotalPages(),
+                jobPage.isLast()
+        );
+    }
+
+    @Transactional(readOnly = true)
     public JobResponse getJobById(Long id) {
         return toResponse(findJob(id));
+    }
+
+    @Transactional(readOnly = true)
+    public Job getJobEntityById(Long id) {
+        return findJob(id);
     }
 
     @Transactional
@@ -61,6 +96,8 @@ public class JobService {
         job.setCompany(request.company());
         job.setLocation(request.location());
         job.setTechnology(request.technology());
+        job.setRequiredSkills(request.requiredSkills() != null && !request.requiredSkills().isBlank() ? request.requiredSkills() : request.technology());
+        job.setJobType(request.jobType() != null && !request.jobType().isBlank() ? request.jobType() : "Full-time");
         job.setExperience(request.experience());
         job.setSalary(request.salary());
         job.setDescription(request.description());
@@ -73,9 +110,12 @@ public class JobService {
                 job.getCompany(),
                 job.getLocation(),
                 job.getTechnology(),
+                job.getRequiredSkills(),
+                job.getJobType(),
                 job.getExperience(),
                 job.getSalary(),
-                job.getDescription()
+                job.getDescription(),
+                job.getCreatedAt()
         );
     }
 }
