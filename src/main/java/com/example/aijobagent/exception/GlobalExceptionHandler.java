@@ -53,6 +53,12 @@ public class GlobalExceptionHandler {
         return buildError(HttpStatus.BAD_REQUEST, "File upload size limit exceeded (maximum 5MB allowed).", request, Map.of());
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponse> handleServiceUnavailable(IllegalStateException exception,
+                                                                   HttpServletRequest request) {
+        return buildError(HttpStatus.SERVICE_UNAVAILABLE, exception.getMessage(), request, Map.of());
+    }
+
     @ExceptionHandler(AiAgentException.class)
     public ResponseEntity<ErrorResponse> handleAiAgentException(AiAgentException exception,
                                                                 HttpServletRequest request) {

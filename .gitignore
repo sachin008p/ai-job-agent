@@ -1,0 +1,15 @@
+# Build output
+target/
+frontend/dist/
+
+# Frontend dependencies and Vite cache
+frontend/node_modules/
+
+# IDE files
+.idea/
+*.iml
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example

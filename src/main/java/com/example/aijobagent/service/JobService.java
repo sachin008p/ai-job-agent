@@ -33,6 +33,12 @@ public class JobService {
 
     @Transactional(readOnly = true)
     public PageResponse<JobResponse> searchJobs(int page, int size, String title, String location, String skills) {
+        if (page < 0) {
+            throw new IllegalArgumentException("Page number cannot be negative.");
+        }
+        if (size < 1 || size > 100) {
+            throw new IllegalArgumentException("Page size must be between 1 and 100.");
+        }
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
 
         String safeTitle = title == null ? "" : title.trim();

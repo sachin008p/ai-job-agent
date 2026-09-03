@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "../api";
 
 const Register = () => {
@@ -7,11 +8,13 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
     try {
       const payload = {
         name,
@@ -23,70 +26,73 @@ const Register = () => {
       const response = await api.post("/auth/register", payload);
       const token = response.data.token;
       localStorage.setItem("token", token);
-      navigate("/dashboard");
+      localStorage.setItem("user", JSON.stringify(response.data));
+      navigate("/dashboard", { replace: true });
     } catch (err) {
-      console.error(err);
       setError(err.response?.data?.message || "Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-500 via-teal-600 to-blue-500 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md p-8">
+    <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center bg-[#0b1220] p-4">
+      <div className="w-full max-w-md rounded-2xl border border-slate-700 bg-[#111a2b] p-8 shadow-2xl shadow-slate-950/30">
         <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 text-center">
-          Create Your Account
+          Create your account
         </h2>
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
+          <div className="rounded-lg border border-red-400/30 bg-red-500/10 px-4 py-2 text-red-300 mb-4">
             {error}
           </div>
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700 dark:text-gray-300 mb-1" htmlFor="name">Name</label>
+            <label className="mb-1 block text-sm text-slate-300" htmlFor="name">Name</label>
             <input
               id="name"
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-gray-700 dark:text-gray-100"
+              className="w-full px-4 py-2 border rounded bg-white text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
           </div>
           <div>
-            <label className="block text-gray-700 dark:text-gray-300 mb-1" htmlFor="email">Email</label>
+            <label className="mb-1 block text-sm text-slate-300" htmlFor="email">Email</label>
             <input
               id="email"
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-gray-700 dark:text-gray-100"
+              className="w-full px-4 py-2 border rounded bg-white text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
           </div>
           <div>
-            <label className="block text-gray-700 dark:text-gray-300 mb-1" htmlFor="password">Password</label>
+            <label className="mb-1 block text-sm text-slate-300" htmlFor="password">Password</label>
             <input
               id="password"
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-gray-700 dark:text-gray-100"
+              className="w-full px-4 py-2 border rounded bg-white text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded transition-colors"
+            className="w-full rounded-lg bg-emerald-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-emerald-500 disabled:opacity-60"
+            disabled={isLoading}
           >
-            Register
+            {isLoading ? "Creating account..." : "Register"}
           </button>
         </form>
-        <p className="mt-4 text-center text-gray-600 dark:text-gray-400">
+        <p className="mt-4 text-center text-sm text-slate-400">
           Already have an account?{' '}
-          <a href="/login" className="text-teal-600 hover:underline dark:text-teal-400">
+          <Link to="/login" className="text-emerald-400 hover:underline">
             Sign In
-          </a>
+          </Link>
         </p>
       </div>
     </div>

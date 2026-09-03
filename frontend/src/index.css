@@ -5,6 +5,9 @@
 @layer base {
   body {
     font-family: 'Inter', sans-serif;
+    background: #0b1220;
+    color: #e5e7eb;
+    margin: 0;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Outfit', sans-serif;
@@ -13,23 +16,31 @@
 
 /* Glassmorphism utilities */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #111a2b;
+  border: 1px solid #263650;
+  box-shadow: 0 16px 40px rgba(2, 8, 23, 0.18);
 }
 
 .glass-card {
-  background: rgba(30, 41, 59, 0.6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #162236;
+  border: 1px solid #2a3a55;
+  box-shadow: 0 8px 24px rgba(2, 8, 23, 0.12);
 }
 
 .glass-card:hover {
-  border-color: rgba(56, 189, 248, 0.3);
-  box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.15);
+  border-color: #5574a8;
+  box-shadow: 0 12px 30px rgba(2, 8, 23, 0.22);
 }
+
+/* Product accent palette: keep legacy utility names visually consistent. */
+.bg-cyan-500 { background-color: #059669 !important; }
+.bg-cyan-500\/10 { background-color: rgb(16 185 129 / 0.1) !important; }
+.text-cyan-300 { color: #a7f3d0 !important; }
+.text-cyan-400 { color: #6ee7b7 !important; }
+.border-cyan-400 { border-color: #34d399 !important; }
+.border-cyan-500\/30 { border-color: rgb(16 185 129 / 0.3) !important; }
+.from-cyan-500 { --tw-gradient-from: #059669 var(--tw-gradient-from-position) !important; }
+.to-blue-400 { --tw-gradient-to: #4ade80 var(--tw-gradient-to-position) !important; }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {

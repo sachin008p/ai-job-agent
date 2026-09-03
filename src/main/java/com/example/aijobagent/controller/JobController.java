@@ -4,6 +4,7 @@ import com.example.aijobagent.dto.JobMatchResponse;
 import com.example.aijobagent.dto.JobRecommendationResponse;
 import com.example.aijobagent.dto.JobRequest;
 import com.example.aijobagent.dto.JobResponse;
+import com.example.aijobagent.dto.LiveJobResponse;
 import com.example.aijobagent.dto.PageResponse;
 import com.example.aijobagent.model.User;
 import com.example.aijobagent.service.AuthService;
@@ -32,11 +33,14 @@ public class JobController {
     private final JobService jobService;
     private final JobMatchingService jobMatchingService;
     private final AuthService authService;
+    private final com.example.aijobagent.service.LiveJobService liveJobService;
 
-    public JobController(JobService jobService, JobMatchingService jobMatchingService, AuthService authService) {
+    public JobController(JobService jobService, JobMatchingService jobMatchingService, AuthService authService,
+                         com.example.aijobagent.service.LiveJobService liveJobService) {
         this.jobService = jobService;
         this.jobMatchingService = jobMatchingService;
         this.authService = authService;
+        this.liveJobService = liveJobService;
     }
 
     @GetMapping
@@ -52,6 +56,18 @@ public class JobController {
     @GetMapping("/all")
     public ResponseEntity<List<JobResponse>> getAllJobs() {
         return ResponseEntity.ok(jobService.getAllJobs());
+    }
+
+    @GetMapping("/live")
+    public ResponseEntity<List<LiveJobResponse>> searchLiveJobs(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String location) {
+        if (page < 0 || size < 1 || size > 50) {
+            throw new IllegalArgumentException("Page must be non-negative and size must be between 1 and 50.");
+        }
+        return ResponseEntity.ok(liveJobService.search(query, location, page, size));
     }
 
     @GetMapping("/recommendations")

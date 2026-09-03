@@ -35,10 +35,16 @@ src/main/java/com/example/aijobagent
 
 ```bash
 OPENAI_API_KEY=your_openai_api_key
+ADZUNA_APP_ID=your_adzuna_app_id
+ADZUNA_APP_KEY=your_adzuna_app_key
 DATABASE_URL=jdbc:postgresql://localhost:5432/ai_job_agent
 DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=postgres
 ```
+
+Live job listings
+
+The job search uses the Adzuna API to display current listings. Register at https://developer.adzuna.com/ and add the returned `app_id` and `app_key` as `ADZUNA_APP_ID` and `ADZUNA_APP_KEY`. The default country is India (`in`); change it with `ADZUNA_COUNTRY` if needed. Without Adzuna credentials, the local seeded jobs remain available through the database endpoints, but the live search page will ask for configuration.
 
 ## Run
 

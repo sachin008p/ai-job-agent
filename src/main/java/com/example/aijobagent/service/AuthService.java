@@ -37,7 +37,9 @@ public class AuthService {
         user.setName(request.name());
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
-        user.setRole(request.role() != null && !request.role().isBlank() ? request.role() : "ROLE_USER");
+        // Roles are server-controlled. Never allow a public registration request
+        // to create an administrator account.
+        user.setRole("ROLE_USER");
         user.setSkills(request.skills());
 
         User savedUser = userRepository.save(user);
