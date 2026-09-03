@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <header className="border-b border-slate-700/70 bg-[#111a2b] px-6 py-4 text-slate-100 shadow-lg shadow-slate-950/10">
       <Link to="/" className="flex items-center gap-3 text-xl font-bold tracking-tight">
-        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-sm">AJ</span>
+        <img src="/logo.svg" alt="AI Job Agent" className="h-9 w-9 rounded-lg" />
         <span>AI Job Agent</span>
       </Link>
       <nav className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-sm font-medium text-slate-300">
