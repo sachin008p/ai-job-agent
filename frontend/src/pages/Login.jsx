@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import api from "../api";
+import { ArrowLeft, ArrowRight, Check, Eye, EyeOff, LockKeyhole, Mail, Sparkles } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -31,58 +33,26 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center bg-[#0b1220] p-4">
-      <div className="w-full max-w-md rounded-2xl border border-slate-700 bg-[#111a2b] p-8 shadow-2xl shadow-slate-950/30">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 text-center">
-          Welcome back
-        </h2>
+    <div className="auth-page">
+      <div className="auth-visual"><Link to="/" className="auth-back"><ArrowLeft size={16} /> Back to home</Link><div className="auth-visual-content"><span className="auth-spark"><Sparkles size={17} /> AI-powered career search</span><h1>Find work that<br /><i>fits your life.</i></h1><p>One focused workspace for better jobs, smarter matches, and your next opportunity.</p><div className="auth-points"><span><Check /> Verified opportunities</span><span><Check /> Personalized job matches</span><span><Check /> Simple application tracking</span></div></div><div className="auth-visual-orb orb-one" /><div className="auth-visual-orb orb-two" /></div>
+      <div className="auth-form-side"><div className="auth-form-wrap"><div className="auth-mobile-brand"><span className="brand-symbol">✦</span> AI Job <em>Agent</em></div><div className="auth-form-heading"><p className="kicker">Welcome back</p><h2>Log in to your workspace</h2><p>Pick up where you left off in your job search.</p></div>
         {error && (
-          <div className="rounded-lg border border-red-400/30 bg-red-500/10 px-4 py-2 text-red-300 mb-4">
+          <div className="auth-error">
             {error}
           </div>
         )}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="mb-1 block text-sm text-slate-300" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border rounded bg-white text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            />
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="auth-input-group">
+            <label htmlFor="email">Email address</label>
+            <div className="auth-input"><Mail size={18} /><input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" /></div>
           </div>
-          <div>
-            <label className="mb-1 block text-sm text-slate-300" htmlFor="password">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded bg-white text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            />
+          <div className="auth-input-group">
+            <div className="auth-label-row"><label htmlFor="password">Password</label><a href="#forgot">Forgot password?</a></div>
+            <div className="auth-input"><LockKeyhole size={18} /><input id="password" type={showPassword ? "text" : "password"} required value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" /><button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></div>
           </div>
-          <button
-            type="submit"
-            className="w-full rounded-lg bg-emerald-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-emerald-500 disabled:opacity-60"
-            disabled={isLoading}
-          >
-            {isLoading ? "Signing in..." : "Sign In"}
-          </button>
+          <button type="submit" className="auth-submit" disabled={isLoading}>{isLoading ? "Signing in..." : <>Continue to workspace <ArrowRight size={17} /></>}</button>
         </form>
-        <p className="mt-4 text-center text-sm text-slate-400">
-          Don't have an account?{' '}
-          <Link to="/register" className="text-emerald-400 hover:underline">
-            Register
-          </Link>
-        </p>
-      </div>
+        <p className="auth-switch">Don't have an account? <Link to="/register">Create one free</Link></p><div className="demo-hint"><span>Demo access</span><small>user@example.com · user123</small></div><p className="auth-legal">By continuing, you agree to our Terms of Use and Privacy Policy.</p></div></div>
     </div>
   );
 };

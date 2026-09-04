@@ -12,14 +12,15 @@ import MyApplications from './pages/MyApplications';
 import AiChat from './pages/AiChat';
 import Header from './components/Header';
 import ProtectedRoute from './components/ProtectedRoute';
+import Home from './pages/Home';
 
 const App = () => {
   const isAuthenticated = !!localStorage.getItem('token');
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0b1220] text-slate-100">
+    <div className={`min-h-screen flex flex-col ${isAuthenticated ? 'bg-[#0b1220] text-slate-100' : 'bg-white text-slate-900'}`}>
       <Header />
-      <main className="flex-1 p-6 md:p-8">
+      <main className="flex-1">
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -88,7 +89,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/" element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />} />
+          <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Home />} />
         </Routes>
       </main>
     </div>

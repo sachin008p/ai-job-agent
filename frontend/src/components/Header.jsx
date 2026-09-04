@@ -11,12 +11,13 @@ const Header = () => {
   };
 
   return (
-    <header className="border-b border-slate-700/70 bg-[#111a2b] px-6 py-4 text-slate-100 shadow-lg shadow-slate-950/10">
-      <Link to="/" className="flex items-center gap-3 text-xl font-bold tracking-tight">
-        <img src="/logo.svg" alt="AI Job Agent" className="h-9 w-9 rounded-lg" />
-        <span>AI Job Agent</span>
+    <header className={`site-header ${token ? 'app-header' : ''}`}>
+      <Link to="/" className="brand-lockup">
+        <span className="brand-symbol">✦</span>
+        <span>AI Job <em>Agent</em></span>
       </Link>
-      <nav className="flex flex-wrap items-center justify-end gap-x-5 gap-y-2 text-sm font-medium text-slate-300">
+      <nav className="site-nav">
+        {!token && <><a href="#how-it-works">How it works</a><a href="#jobs">Explore jobs</a><a href="#categories">Career resources</a><Link to="/login" className="nav-login">Log in</Link><Link to="/register" className="nav-signup">Get started</Link></>}
         {token && (
           <>
             <Link to="/dashboard" className="transition-colors hover:text-white">Dashboard</Link>
