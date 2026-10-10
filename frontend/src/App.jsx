@@ -28,7 +28,7 @@ const App = () => {
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoute isAuth={isAuthenticated}>
+              <ProtectedRoute>
                 <Dashboard />
               </ProtectedRoute>
             }
@@ -36,7 +36,7 @@ const App = () => {
           <Route
             path="/jobs"
             element={
-              <ProtectedRoute isAuth={isAuthenticated}>
+              <ProtectedRoute>
                 <JobSearch />
               </ProtectedRoute>
             }
@@ -44,7 +44,7 @@ const App = () => {
           <Route
             path="/jobs/:id"
             element={
-              <ProtectedRoute isAuth={isAuthenticated}>
+              <ProtectedRoute>
                 <JobDetails />
               </ProtectedRoute>
             }
@@ -52,7 +52,7 @@ const App = () => {
           <Route
             path="/resume/upload"
             element={
-              <ProtectedRoute isAuth={isAuthenticated}>
+              <ProtectedRoute>
                 <ResumeUpload />
               </ProtectedRoute>
             }
@@ -60,7 +60,7 @@ const App = () => {
           <Route
             path="/resume/analysis"
             element={
-              <ProtectedRoute isAuth={isAuthenticated}>
+              <ProtectedRoute>
                 <ResumeAnalysis />
               </ProtectedRoute>
             }
@@ -68,7 +68,7 @@ const App = () => {
           <Route
             path="/recommendations"
             element={
-              <ProtectedRoute isAuth={isAuthenticated}>
+              <ProtectedRoute>
                 <JobRecommendations />
               </ProtectedRoute>
             }
@@ -76,7 +76,7 @@ const App = () => {
           <Route
             path="/applications"
             element={
-              <ProtectedRoute isAuth={isAuthenticated}>
+              <ProtectedRoute>
                 <MyApplications />
               </ProtectedRoute>
             }
@@ -84,7 +84,7 @@ const App = () => {
           <Route
             path="/ai-chat"
             element={
-              <ProtectedRoute isAuth={isAuthenticated}>
+              <ProtectedRoute>
                 <AiChat />
               </ProtectedRoute>
             }
