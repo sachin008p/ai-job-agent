@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm install --foreground-scripts && npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install --foreground-scripts"
+}
