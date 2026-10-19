@@ -16,6 +16,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Service for managing user-saved job listings, supporting both internal
+ * platform jobs and external job board listings.
+ */
 @Service
 public class SavedJobService {
 
